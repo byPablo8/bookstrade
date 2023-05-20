@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.bypablo.bookstrade"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "scheme":"bookstrade",
+    "extra": {
+      "eas": {
+        "projectId": "58645f6e-fa59-429f-a1f8-2f671563bb57"
+      }
     }
   }
 }
