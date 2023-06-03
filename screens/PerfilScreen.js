@@ -30,6 +30,9 @@ const PerfilScreen = () => {
     const handleViewBooks = () => {
         navigation.navigate('LibrosUsuarioScreen', { userId: user.usuario_id });
     };
+    const AgregarLibroUser = () => {
+        navigation.navigate('AgregarLibroScreen', { userId: user.usuario_id });
+    };
 
     if (!token) {
         return (
@@ -51,7 +54,7 @@ const PerfilScreen = () => {
                 name="chevron-left"
                 type="fontawesome"
                 onPress={() => navigation.goBack()}
-                containerStyle={tw`absolute top-1 z-50 left-5 p-1 rounded-full`}
+                containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
             />
             {user && (
                 <>
@@ -64,6 +67,11 @@ const PerfilScreen = () => {
                     <Button
                         title="Ver mis libros"
                         onPress={handleViewBooks}
+                    />
+                    <Text></Text>
+                    <Button
+                        title="Agregar un libro"
+                        onPress={AgregarLibroUser}
                     />
                 </>
             )}

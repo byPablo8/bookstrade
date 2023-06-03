@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Button, TextInput, View, Alert, StyleSheet } from 'react-native';
+import { Button, TextInput, View, Image, Alert, StyleSheet, Text } from 'react-native';
 import axios from 'axios';
 import { AuthContext } from './AuthContext'; // Asegúrate de que la ruta sea correcta
 import { useNavigation } from '@react-navigation/native'; // Para la navegación
@@ -38,8 +38,19 @@ const LoginScreen = () => {
                 name="chevron-left"
                 type="fontawesome"
                 onPress={() => navigation.goBack()}
-                containerStyle={tw`absolute top-1 z-50 left-5 p-1 rounded-full`}
+                containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
             />
+            <Image
+                style={{
+                    width: 100,
+                    height: 100,
+                    resizeMode: 'contain',
+                    alignSelf: 'center',
+                }}
+                source={require("./book.png")}
+            />
+            <Text></Text>
+            <Text></Text>
             <TextInput
                 style={styles.input}
                 placeholder="Usuario"

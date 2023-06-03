@@ -37,7 +37,7 @@ const LibroScreen = () => {
         name="chevron-left"
         type="fontawesome"
         onPress={() => navigation.goBack()}
-        containerStyle={tw`absolute top-1 z-50 left-5 p-1 rounded-full`}
+        containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
       />
 
       <Text style={styles.header}>Lista de Libros</Text>
@@ -50,7 +50,6 @@ const LibroScreen = () => {
             <Text style={styles.text}>Autor: {item.autor}</Text>
             <Text style={styles.text}>Editorial: {item.editorial}</Text>
             <Text style={styles.text}>Fecha de publicación: {item.fecha_publicacion}</Text>
-            <Text style={styles.text}>Usuario ID: {item.usuario_id}</Text>
           </View>
         )}
       />

@@ -15,6 +15,7 @@ import LogoutButton from './screens/LogoutButton';
 import PerfilScreen from './screens/PerfilScreen';
 import RegistroScreen from './screens/RegistroScreen';
 import LibrosUsuarioScreen from './screens/LibrosUsuarioScreen';
+import AgregarLibroScreen from './screens/AgregarLibroScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -75,6 +76,13 @@ export default function App() {
               <Stack.Screen
                 name='LibrosUsuarioScreen'
                 component={LibrosUsuarioScreen}
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name='AgregarLibroScreen'
+                component={AgregarLibroScreen}
                 options={{
                   headerShown: false
                 }}
