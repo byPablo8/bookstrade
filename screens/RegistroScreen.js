@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Alert, StyleSheet, Image, ScrollView } from 'react-native';
+import { TextInput, Button, Card, Avatar, Title } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
@@ -33,65 +34,91 @@ const RegistroScreen = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
+            <Image
+                style={styles.logo}
+                source={require("./book.png")}
+            />
             <Icon
                 name="chevron-left"
                 type="fontawesome"
                 onPress={() => navigation.goBack()}
                 containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
             />
-            <TextInput
-                style={styles.input}
-                placeholder="Nombre"
-                value={nombre}
-                onChangeText={setNombre}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Apellido"
-                value={apellido}
-                onChangeText={setApellido}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Correo Electrónico"
-                value={correoElectronico}
-                onChangeText={setCorreoElectronico}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Usuario"
-                value={usuario}
-                onChangeText={setUsuario}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Contraseña"
-                value={contrasena}
-                onChangeText={setContrasena}
-                secureTextEntry
-            />
-            <Button title="Registrar" onPress={registrarUsuario} />
-        </View>
+            <Card style={styles.card}>
+                <Card.Title
+                    title="Registrarse"
+                    left={(props) => <Avatar.Icon {...props} icon="account-plus" />}
+                />
+                <Card.Content>
+                    <TextInput
+                        label="Nombre"
+                        value={nombre}
+                        onChangeText={setNombre}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        label="Apellido"
+                        value={apellido}
+                        onChangeText={setApellido}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        label="Correo Electrónico"
+                        value={correoElectronico}
+                        onChangeText={setCorreoElectronico}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        label="Usuario"
+                        value={usuario}
+                        onChangeText={setUsuario}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        label="Contraseña"
+                        value={contrasena}
+                        onChangeText={setContrasena}
+                        secureTextEntry
+                        style={styles.input}
+                    />
+                </Card.Content>
+                <Card.Actions>
+                    <Button icon="account-plus" mode="contained" onPress={registrarUsuario}>
+                        Registrarse
+                    </Button>
+                </Card.Actions>
+            </Card>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        padding: 10,
-        backgroundColor: '#f5f5f5'
+        padding: 20,
+        backgroundColor: '#f5f5f5',
+    },
+    title: {
+        fontSize: 28,
+        textAlign: 'center',
+        color: '#444',
+        marginBottom: 50,
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        resizeMode: 'contain',
+        alignSelf: 'center',
+    },
+    card: {
+        marginBottom: 10,
+        width: '100%',
+        maxWidth: 500,
     },
     input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
         marginBottom: 10,
-        paddingLeft: 6,
-        borderRadius: 5,
-        backgroundColor: '#fff'
-    }
+    },
 });
 
 export default RegistroScreen;

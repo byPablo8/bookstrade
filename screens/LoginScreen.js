@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
-import { Button, TextInput, View, Image, Alert, StyleSheet, Text } from 'react-native';
+import { View, Image, Alert, StyleSheet, ScrollView } from 'react-native';
+import { TextInput, Button, Card, Avatar, Title } from 'react-native-paper';
 import axios from 'axios';
-import { AuthContext } from './AuthContext'; // Asegúrate de que la ruta sea correcta
-import { useNavigation } from '@react-navigation/native'; // Para la navegación
+import { AuthContext } from './AuthContext'; 
+import { useNavigation } from '@react-navigation/native'; 
 import { Icon } from 'react-native-elements';
 import tw from 'tailwind-react-native-classnames';
 
@@ -33,54 +34,72 @@ const LoginScreen = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
+            <Image
+                style={styles.logo}
+                source={require("./book.png")}
+            />
             <Icon
                 name="chevron-left"
                 type="fontawesome"
                 onPress={() => navigation.goBack()}
                 containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
             />
-            <Image
-                style={{
-                    width: 100,
-                    height: 100,
-                    resizeMode: 'contain',
-                    alignSelf: 'center',
-                }}
-                source={require("./book.png")}
-            />
-            <Text></Text>
-            <Text></Text>
-            <TextInput
-                style={styles.input}
-                placeholder="Usuario"
-                value={usuario}
-                onChangeText={text => setUsuario(text)}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Contraseña"
-                value={contrasena}
-                onChangeText={text => setContrasena(text)}
-                secureTextEntry
-            />
-            <Button title="Iniciar sesión" onPress={handleLogin} />
-        </View>
+            <Card style={styles.card}>
+                <Card.Title
+                    title="Iniciar sesión"
+                    left={(props) => <Avatar.Icon {...props} icon="login" />}
+                />
+                <Card.Content>
+                    <TextInput
+                        label="Usuario"
+                        value={usuario}
+                        onChangeText={text => setUsuario(text)}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        label="Contraseña"
+                        value={contrasena}
+                        onChangeText={text => setContrasena(text)}
+                        secureTextEntry
+                        style={styles.input}
+                    />
+                </Card.Content>
+                <Card.Actions>
+                    <Button icon="login" mode="contained" onPress={handleLogin}>
+                        Iniciar sesión
+                    </Button>
+                </Card.Actions>
+            </Card>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
+        backgroundColor: '#f5f5f5',
+    },
+    title: {
+        fontSize: 28,
+        textAlign: 'center',
+        color: '#444',
+        marginBottom: 50,
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        resizeMode: 'contain',
+        alignSelf: 'center',
+    },
+    card: {
+        marginBottom: 10,
+        width: '100%',
+        maxWidth: 500,
     },
     input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
         marginBottom: 10,
-        paddingLeft: 10,
     },
 });
 

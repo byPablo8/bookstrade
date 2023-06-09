@@ -1,93 +1,68 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, Image, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {Text, SafeAreaView, Image, StyleSheet, ScrollView } from 'react-native';
+import { Button, Card, Title, Avatar } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-const HomeButton = ({ text, iconName, navigation, navigateTo }) => {
+const HomeButton = ({ text, iconName, navigateTo }) => {
+    const navigation = useNavigation();
+
     return (
-        <TouchableOpacity style={styles.button}
-            onPress={() => navigation.navigate(navigateTo)}>
-            <Icon
-                style={styles.icon}
-                name={iconName}
-                type="ionicon"
-                color="#fff"
-                size={24}
+        <Card style={styles.card}>
+            <Card.Title
+                title={text}
+                left={(props) => <Avatar.Icon {...props} icon={iconName} />}
             />
-            <Text style={styles.buttonText}>
-                {text}
-            </Text>
-        </TouchableOpacity>
+            <Card.Actions>
+                <Button icon={iconName} mode="contained" onPress={() => navigation.navigate(navigateTo)}>
+                    {text}
+                </Button>
+            </Card.Actions>
+        </Card>
     );
 }
 
 const HomeScreen = () => {
-    const navigation = useNavigation();
-
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.logoContainer}>
+            <ScrollView>
                 <Image
                     style={styles.logo}
                     source={require("./book.png")}
                 />
-                <Text style={styles.title}>
-                    BooksTrade
-                </Text>
-            </View>
-            <HomeButton text="Inicia Sesion" iconName="person-outline" navigation={navigation} navigateTo="LoginScreen" />
-            <HomeButton text="Registrarse" iconName="person-circle-outline" navigation={navigation} navigateTo="RegistroScreen" />
-            <HomeButton text="Mostrar tu perfil" iconName="person-circle-outline" navigation={navigation} navigateTo="PerfilScreen" />
-            <HomeButton text="Consulta todos los Libros" iconName="book-outline" navigation={navigation} navigateTo="LibroScreen" />
-            <HomeButton text="Cierra Sesión" iconName="close-circle-outline" navigation={navigation} navigateTo="LogoutButton" />
+                <Title style={styles.title}>BooksTrade</Title>
+                <HomeButton text="Inicia Sesion" iconName="login" navigateTo="LoginScreen" />
+                <HomeButton text="Registrarse" iconName="account-plus" navigateTo="RegistroScreen" />
+                <HomeButton text="Mostrar tu perfil" iconName="account" navigateTo="PerfilScreen" />
+                <HomeButton text="Consulta todos los Libros" iconName="book" navigateTo="LibroScreen" />
+                <HomeButton text="Cierra Sesión" iconName="logout" navigateTo="LogoutButton" />
+            </ScrollView>
         </SafeAreaView>
-    )
-
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         padding: 20,
-        backgroundColor: '#f5f5f5'
-    },
-    logoContainer: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 50,
+        backgroundColor: '#f5f5f5',
     },
     logo: {
         width: 120,
         height: 120,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        alignSelf: 'center',
     },
     title: {
         fontSize: 28,
-        marginLeft: 20,
+        textAlign: 'center',
         color: '#444',
+        marginBottom: 50,
     },
-    button: {
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        padding: 15,
-        backgroundColor: '#3b5998',
-        margin: 10,
-        borderRadius: 7,
+    card: {
+        marginBottom: 10,
+        width: '100%',
+        maxWidth: 500,
     },
-    buttonText: {
-        fontSize: 18,
-        color: '#fff',
-        marginLeft: 10,
-    },
-    icon: {
-        marginRight: 10,
-        padding: 3,
-        backgroundColor: '#3b5998',
-        borderRadius: 50,
-    }
 });
 
 export default HomeScreen;

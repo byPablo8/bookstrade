@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Alert, StyleSheet, Image, ScrollView } from 'react-native';
+import { TextInput, Button, Card, Avatar, Title } from 'react-native-paper';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { useNavigation } from '@react-navigation/native';
@@ -28,56 +29,89 @@ const AgregarLibroScreen = ({ route }) => {
                 },
             })
             .then(() => {
-                alert('Libro insertado con éxito');
+                Alert.alert('Libro insertado con éxito');
                 navigation.navigate('PerfilScreen');
             })
             .catch((error) => {
                 console.error('Error al insertar el libro: ', error);
-                alert('Error al insertar el libro');
+                Alert.alert('Error al insertar el libro');
             });
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
+            <Image
+                style={styles.logo}
+                source={require("./book.png")}
+            />
             <Icon
                 name="chevron-left"
                 type="fontawesome"
                 onPress={() => navigation.goBack()}
                 containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
             />
-            <Text style={styles.label}>Título:</Text>
-            <TextInput style={styles.input} onChangeText={text => setValue("titulo", text)} />
-            <Text style={styles.label}>Autor:</Text>
-            <TextInput style={styles.input} onChangeText={text => setValue("autor", text)} />
-            <Text style={styles.label}>Editorial:</Text>
-            <TextInput style={styles.input} onChangeText={text => setValue("editorial", text)} />
-            <Text style={styles.label}>Fecha de Publicación:</Text>
-            <TextInput style={styles.input} onChangeText={text => setValue("fecha_publicacion", text)} />
-            <Button
-                title="Enviar"
-                onPress={handleSubmit(onSubmit)}
-            />
-        </View>
+            <Card style={styles.card}>
+                <Card.Title
+                    title="Agregar Libro"
+                    left={(props) => <Avatar.Icon {...props} icon="book-plus" />}
+                />
+                <Card.Content>
+                    <TextInput
+                        label="Título"
+                        style={styles.input}
+                        onChangeText={text => setValue("titulo", text)}
+                    />
+                    <TextInput
+                        label="Autor"
+                        style={styles.input}
+                        onChangeText={text => setValue("autor", text)}
+                    />
+                    <TextInput
+                        label="Editorial"
+                        style={styles.input}
+                        onChangeText={text => setValue("editorial", text)}
+                    />
+                    <TextInput
+                        label="Fecha de Publicación"
+                        style={styles.input}
+                        onChangeText={text => setValue("fecha_publicacion", text)}
+                    />
+                </Card.Content>
+                <Card.Actions>
+                    <Button icon="content-save" mode="contained" onPress={handleSubmit(onSubmit)}>
+                        Guardar
+                    </Button>
+                </Card.Actions>
+            </Card>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         padding: 20,
+        backgroundColor: '#f5f5f5',
     },
-    label: {
-        fontSize: 16,
-        marginTop: 10,
+    title: {
+        fontSize: 28,
+        textAlign: 'center',
+        color: '#444',
+        marginBottom: 50,
+    },
+    logo: {
+        width: 120,
+        height: 120,
+        resizeMode: 'contain',
+        alignSelf: 'center',
+    },
+    card: {
+        marginBottom: 10,
+        width: '100%',
+        maxWidth: 500,
     },
     input: {
-        height: 40,
-        width: 200,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 20,
+        marginBottom: 10,
     },
 });
 
