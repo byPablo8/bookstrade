@@ -20,7 +20,7 @@ const HomeButton = ({ text, iconName, navigateTo }) => {
         </Card>
     );
 }
-
+//IP Colegio: 192.168.10.37
 const HomeScreen = () => {
     return (
         <SafeAreaView style={styles.container}>
@@ -34,6 +34,7 @@ const HomeScreen = () => {
                 <HomeButton text="Registrarse" iconName="account-plus" navigateTo="RegistroScreen" />
                 <HomeButton text="Mostrar tu perfil" iconName="account" navigateTo="PerfilScreen" />
                 <HomeButton text="Consulta todos los Libros" iconName="book" navigateTo="LibroScreen" />
+                <HomeButton text="Recomendaciones" iconName="book-open" navigateTo="BookRecommendationScreen" />
                 <HomeButton text="Cierra Sesión" iconName="logout" navigateTo="LogoutButton" />
             </ScrollView>
         </SafeAreaView>
