@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Button, Text, Title, Card, Avatar } from 'react-native-paper';
+import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { Avatar, Button, TextInput as PaperInput, Title, Subheading } from 'react-native-paper';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import { useNavigation } from '@react-navigation/native';
-import { Icon } from 'react-native-elements';
-import tw from 'tailwind-react-native-classnames';
+import EditProfileScreen from './EditProfileScreen';
 
 const PerfilScreen = () => {
-    const { token } = useContext(AuthContext);
+    const { token, setToken } = useContext(AuthContext);
     const [user, setUser] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -22,6 +24,8 @@ const PerfilScreen = () => {
                 })
                 .then((response) => {
                     setUser(response.data);
+                    setName(response.data.nombre);
+                    setEmail(response.data.correo_electronico);
                 })
                 .catch((error) => {
                     console.error('Error fetching user data:', error);
@@ -37,55 +41,111 @@ const PerfilScreen = () => {
         navigation.navigate('AgregarLibroScreen', { userId: user.usuario_id });
     };
 
+
+    const deleteUser = () => {
+        Alert.alert(
+            'Eliminar perfil',
+            '¿Estás seguro de que quieres eliminar tu perfil permanentemente?',
+            [
+                {
+                    text: 'Cancelar',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                {
+                    text: 'Sí, eliminar',
+                    onPress: () => {
+                        axios
+                            .delete(`http://192.168.1.54:3000/api/usuarioDel/${user.usuario_id}`, {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
+                            })
+                            .then(() => {
+                                setToken(null);
+                                navigation.navigate('HomeScreen');
+                            })
+                            .catch(error => {
+                                console.error('Error deleting user:', error);
+                            });
+                    },
+                },
+            ],
+            { cancelable: false },
+        );
+    };
+
     if (!token) {
         return (
             <View style={styles.container}>
-                <Icon
-                    name="chevron-left"
-                    type="fontawesome"
-                    onPress={() => navigation.goBack()}
-                    containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
-                />
                 <Title>Debes iniciar sesión primero.</Title>
             </View>
         );
     }
 
     return (
-        <View style={styles.container}>
-            <Icon
-                name="chevron-left"
-                type="fontawesome"
-                onPress={() => navigation.goBack()}
-                containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
-            />
+        <ScrollView contentContainerStyle={styles.container}>
             {user && (
-                <Card style={styles.card}>
-                    <Card.Title
-                        title={`${user.nombre} ${user.apellido}`}
-                        subtitle={user.correo_electronico}
-                        left={(props) => <Avatar.Icon {...props} icon="account" />}
-                    />
-                    <Card.Actions>
-                        <Button onPress={handleViewBooks}>Ver mis libros</Button>
-                        <Button onPress={AgregarLibroUser}>Agregar un libro</Button>
-                    </Card.Actions>
-                </Card>
+                <>
+                    <Avatar.Icon size={100} icon="account" style={styles.avatar} />
+                    <Title style={styles.title}>{user.nombre}</Title>
+                    <Subheading style={styles.subTitle}>{user.correo_electronico}</Subheading>
+                    {editMode ? (
+                        <>
+                            <PaperInput
+                                label="Nombre"
+                                value={name}
+                                onChangeText={setName}
+                                style={styles.input}
+                            />
+                            <PaperInput
+                                label="Email"
+                                value={email}
+                                onChangeText={setEmail}
+                                style={styles.input}
+                            />
+                        </>
+                    ) : null}
+                    <Button mode="contained" onPress={handleViewBooks} style={styles.button}>Ver mis libros</Button>
+                    <Button mode="contained" onPress={AgregarLibroUser} style={styles.button}>Agregar un libro</Button>
+                    <Button
+                        mode="contained"
+                        onPress={() => navigation.navigate('EditProfileScreen', { user })}
+                        style={styles.button}>
+                        Editar perfil
+                    </Button>
+                    <Button mode="outlined" onPress={deleteUser} style={styles.button}>Eliminar cuenta</Button>
+                </>
             )}
-        </View>
+        </ScrollView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
+        backgroundColor: '#f5f5f5',
     },
-    card: {
+    avatar: {
+        backgroundColor: '#9C27B0',
+        marginBottom: 10,
+    },
+    title: {
+        fontSize: 20,
+        marginBottom: 5,
+    },
+    subTitle: {
+        marginBottom: 20,
+    },
+    input: {
         width: '100%',
-        maxWidth: 500,
+        marginBottom: 10,
+    },
+    button: {
+        width: '100%',
+        marginBottom: 10,
     },
 });
 

@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
-import { View, Image, Alert, StyleSheet, ScrollView } from 'react-native';
-import { TextInput, Button, Card, Avatar, Title } from 'react-native-paper';
+import { View, Image, Alert, StyleSheet, SafeAreaView, ScrollView, TextInput as RNTextInput } from 'react-native';
+import { Button, Avatar, Title, useTheme, TextInput } from 'react-native-paper';
 import axios from 'axios';
-import { AuthContext } from './AuthContext'; 
-import { useNavigation } from '@react-navigation/native'; 
+import { AuthContext } from './AuthContext';
+import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
-import tw from 'tailwind-react-native-classnames';
 
 const LoginScreen = () => {
     const { setToken } = useContext(AuthContext);
     const navigation = useNavigation();
+    const { colors } = useTheme();
     const [usuario, setUsuario] = useState('');
     const [contrasena, setContrasena] = useState('');
 
@@ -34,72 +34,79 @@ const LoginScreen = () => {
     };
 
     return (
-        <ScrollView style={styles.container}>
-            <Image
-                style={styles.logo}
-                source={require("./book.png")}
-            />
-            <Icon
-                name="chevron-left"
-                type="fontawesome"
-                onPress={() => navigation.goBack()}
-                containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
-            />
-            <Card style={styles.card}>
-                <Card.Title
-                    title="Iniciar sesión"
-                    left={(props) => <Avatar.Icon {...props} icon="login" />}
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+            <ScrollView contentContainerStyle={styles.content}>
+                <Icon
+                    name="chevron-left"
+                    type="fontawesome"
+                    onPress={() => navigation.goBack()}
+                    containerStyle={styles.iconContainer}
                 />
-                <Card.Content>
-                    <TextInput
-                        label="Usuario"
-                        value={usuario}
-                        onChangeText={text => setUsuario(text)}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label="Contraseña"
-                        value={contrasena}
-                        onChangeText={text => setContrasena(text)}
-                        secureTextEntry
-                        style={styles.input}
-                    />
-                </Card.Content>
-                <Card.Actions>
-                    <Button icon="login" mode="contained" onPress={handleLogin}>
-                        Iniciar sesión
-                    </Button>
-                </Card.Actions>
-            </Card>
-        </ScrollView>
+                <Image
+                    style={styles.logo}
+                    source={require("./book.png")}
+                />
+                <Title style={[styles.title, { color: colors.onBackground }]}>Iniciar sesión</Title>
+                <TextInput
+                    label="Usuario"
+                    value={usuario}
+                    onChangeText={text => setUsuario(text)}
+                    style={styles.input}
+                    mode="outlined"
+                />
+                <TextInput
+                    label="Contraseña"
+                    value={contrasena}
+                    onChangeText={text => setContrasena(text)}
+                    secureTextEntry
+                    style={styles.input}
+                    mode="outlined"
+                />
+                <Button mode="contained" onPress={handleLogin} style={styles.button}>
+                    Iniciar sesión
+                </Button>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    content: {
         padding: 20,
-        backgroundColor: '#f5f5f5',
+        alignItems: 'center',
+    },
+    iconContainer: {
+        position: 'absolute',
+        top: 10,
+        left: 5,
+        padding: 5,
+        borderRadius: 25,
     },
     title: {
-        fontSize: 28,
+        fontSize: 32,
         textAlign: 'center',
-        color: '#444',
         marginBottom: 50,
+        fontWeight: 'bold',
     },
     logo: {
-        width: 120,
-        height: 120,
+        width: 150,
+        height: 150,
         resizeMode: 'contain',
         alignSelf: 'center',
-    },
-    card: {
-        marginBottom: 10,
-        width: '100%',
-        maxWidth: 500,
+        marginBottom: 50,
     },
     input: {
-        marginBottom: 10,
+        width: '100%',
+        maxWidth: 400,
+        marginBottom: 20,
+    },
+    button: {
+        width: '100%',
+        maxWidth: 400,
+        marginTop: 10,
     },
 });
 

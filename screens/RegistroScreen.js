@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Alert, StyleSheet, Image, ScrollView } from 'react-native';
-import { TextInput, Button, Card, Avatar, Title } from 'react-native-paper';
+import { TextInput, Button, Avatar, Title } from 'react-native-paper';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
@@ -33,6 +33,7 @@ const RegistroScreen = () => {
         }
     }
 
+
     return (
         <ScrollView style={styles.container}>
             <Image
@@ -45,50 +46,46 @@ const RegistroScreen = () => {
                 onPress={() => navigation.goBack()}
                 containerStyle={tw`absolute top-10 z-50 left-5 p-1 rounded-full`}
             />
-            <Card style={styles.card}>
-                <Card.Title
-                    title="Registrarse"
-                    left={(props) => <Avatar.Icon {...props} icon="account-plus" />}
-                />
-                <Card.Content>
-                    <TextInput
-                        label="Nombre"
-                        value={nombre}
-                        onChangeText={setNombre}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label="Apellido"
-                        value={apellido}
-                        onChangeText={setApellido}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label="Correo Electrónico"
-                        value={correoElectronico}
-                        onChangeText={setCorreoElectronico}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label="Usuario"
-                        value={usuario}
-                        onChangeText={setUsuario}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label="Contraseña"
-                        value={contrasena}
-                        onChangeText={setContrasena}
-                        secureTextEntry
-                        style={styles.input}
-                    />
-                </Card.Content>
-                <Card.Actions>
-                    <Button icon="account-plus" mode="contained" onPress={registrarUsuario}>
-                        Registrarse
-                    </Button>
-                </Card.Actions>
-            </Card>
+
+            {/* Eliminamos el Card y usamos las vistas directamente */}
+            <Title style={styles.title}>Registrarse</Title>
+            <TextInput
+                label="Nombre"
+                value={nombre}
+                onChangeText={setNombre}
+                style={styles.input}
+            />
+            <TextInput
+                label="Apellido"
+                value={apellido}
+                onChangeText={setApellido}
+                style={styles.input}
+            />
+            <TextInput
+                label="Correo Electrónico"
+                value={correoElectronico}
+                onChangeText={setCorreoElectronico}
+                style={styles.input}
+            />
+            <TextInput
+                label="Usuario"
+                value={usuario}
+                onChangeText={setUsuario}
+                style={styles.input}
+            />
+            <TextInput
+                label="Contraseña"
+                value={contrasena}
+                onChangeText={setContrasena}
+                secureTextEntry
+                style={styles.input}
+            />
+            <Button icon="account-plus" mode="contained" onPress={registrarUsuario} style={{ marginBottom: 20 }}>
+                Registrarse
+            </Button>
+
+            {/* Vista Espaciador al final */}
+            <View style={{ height: 60 }}></View>
         </ScrollView>
     );
 }
@@ -100,24 +97,28 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     title: {
-        fontSize: 28,
+        fontSize: 32,
         textAlign: 'center',
         color: '#444',
         marginBottom: 50,
+        fontWeight: 'bold',
     },
     logo: {
-        width: 120,
-        height: 120,
+        width: 150,
+        height: 150,
         resizeMode: 'contain',
         alignSelf: 'center',
-    },
-    card: {
-        marginBottom: 10,
-        width: '100%',
-        maxWidth: 500,
+        marginBottom: 50,
     },
     input: {
-        marginBottom: 10,
+        width: '100%',
+        maxWidth: 500,
+        marginBottom: 20,
+    },
+    button: {
+        width: '100%',
+        maxWidth: 500,
+        marginTop: 10,
     },
 });
 

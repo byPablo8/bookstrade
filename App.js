@@ -17,6 +17,7 @@ import RegistroScreen from './screens/RegistroScreen';
 import LibrosUsuarioScreen from './screens/LibrosUsuarioScreen';
 import AgregarLibroScreen from './screens/AgregarLibroScreen';
 import BookRecommendationScreen from './screens/BookRecommendationScreen ';
+import EditProfileScreen from './screens/EditProfileScreen';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -90,6 +91,13 @@ export default function App() {
               <Stack.Screen
                 name='BookRecommendationScreen'
                 component={BookRecommendationScreen}
+                options={{
+                  headerShown: false
+                }}
+              />
+              <Stack.Screen
+                name='EditProfileScreen'
+                component={EditProfileScreen}
                 options={{
                   headerShown: false
                 }}

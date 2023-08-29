@@ -5,24 +5,31 @@ import axios from 'axios';
 
 const BookRecommendationScreen = () => {
     const [data, setData] = useState([]);
-    const apikey = '';
-    const apiUrl = 'https://api.openai.com/v1/engines/text-davinci-003/completions';
+    const apikey = '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';
+    const apiUrl = 'https://api.openai.com/v1/chat/completions';
     const [textInput, setTextInput] = useState('');
-    
+
     const handleSend = async () => {
-        const prompt = textInput
         try {
             const response = await axios.post(apiUrl, {
-                prompt: prompt,
-                max_tokens: 1024,
-                temperature: 0.5,
+                model: 'gpt-3.5-turbo',
+                messages: [
+                    {
+                        role: 'system',
+                        content: 'You are a helpful assistant.'
+                    },
+                    {
+                        role: 'user',
+                        content: textInput
+                    }
+                ]
             }, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${apikey}`
                 }
             });
-            const text = response.data.choices[0].text;
+            const text = response.data.choices[0].message.content;
             setData(prevData => [...prevData, { type: 'user', 'text': textInput }, { type: 'bot', 'text': text }]);
             setTextInput('');
         } catch (error) {
@@ -42,9 +49,11 @@ const BookRecommendationScreen = () => {
                 keyExtractor={(item, index) => index.toString()}
                 style={styles.chatBody}
                 renderItem={({ item }) => (
-                    <View style={{ flexDirection: 'row', padding: 10 }}>
+                    <View style={{ flexDirection: 'column', padding: 10 }}>
                         <Text style={{ fontWeight: 'bold', color: item.type === 'user' ? 'green' : 'red' }}>{item.type === 'user' ? 'User' : 'Bot'}</Text>
                         <Text style={styles.messageText}>{item.text}</Text>
+                        {/* Vista Espaciador al final */}
+                        <View style={{ height: 30 }}></View>
                     </View>
                 )}
             />
